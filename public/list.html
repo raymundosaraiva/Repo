@@ -1,0 +1,84 @@
+<div class="row"> 	
+	<br>
+  <nav>
+    <div class="nav-wrapper blue">
+        <div class="input-field">
+          <div class="col s12">
+            <input id="search" class="filterResults" type="search" placeholder="Busca por título, autor ou data" required>
+            <label for="search"><i class="material-icons">search</i></label>
+          </div>
+<!--
+					<div class="input-field col s3 right">
+						<select id="sel">
+							<option value="1">Ordenar por Data</option>
+							<option value="2">Ordenar por Título</option>
+							<option value="3">Ordenar por Autor</option>
+						</select>
+					</div>
+-->
+        </div>
+    </div>
+  </nav>
+        
+	<div class="col s12">
+			<div class="collection center" id="list">
+				<div class="preloader-wrapper big active">
+					<div class="spinner-layer spinner-blue-only">
+						<div class="circle-clipper left">
+							<div class="circle"></div>
+						</div><div class="gap-patch">
+							<div class="circle"></div>
+						</div><div class="circle-clipper right">
+							<div class="circle"></div>
+						</div>
+					</div>
+				</div>
+			</div></br>
+	</div>	
+
+</div>
+
+  <!-- Modal Structure -->
+<div id="modals">
+</div>
+
+
+<script>
+$(document).ready(function() {
+  $('select').material_select();
+	
+	$(".main").on("keyup", ".filterResults", function(e){
+		if (e.keyCode == 13) return false;
+		search_str = $(this).val().toLowerCase();
+		find = $(".filter");
+
+		for(i = 0 ; i < $(find).length ; i++) {
+			name = $(find).eq(i).text().toLowerCase();
+			if(name.indexOf(search_str) > -1)
+							$(find).eq(i).show();
+			else
+							$(find).eq(i).hide();
+		}
+	});
+	
+		var list = "";
+		var modals = "";
+		var i = 1;
+		
+			
+		firebase.database().ref('/papers').once('value').then(function(papers) {
+				papers.forEach(function(paper){
+					list += '<a class="collection-item modal-trigger filter" href="#modal'+i+'"><h5 class="truncate">'+paper.val().title+'</h5><h5 class="grey-text">'+paper.val().author+'</h5><h6 class="orange-text">'+paper.val().date+'</h6></a>';
+					modals += '<div id="modal'+i+'" class="modal modal-fixed-footer"><div class="modal-content"><h5 class="center">'+paper.val().title+'</h5><p align="justify"><b>Resumo:</b> '+paper.val().abstract+'</p><p><b>Palavras-chave:</b> '+paper.val().keywords+'</p><p><b>Autor:</b> '+paper.val().author+'</p><p><b>Orientador:</b> '+paper.val().advisor+'</p><p><b>Data:</b> '+paper.val().date+'</p></div><div class="modal-footer"><a href="'+paper.val().pdf+'" target="_blank" class="modal-action modal-close waves-effect waves-green btn-flat ">Ver PDF</a><a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a></div></div>';
+					i++;
+				});	  	
+	  }).then(function(){
+	  	$("#list").html(list);
+	  	$("#modals").html(modals);
+			$('.modal').modal();
+	  });
+	
+});
+
+</script> 
+    

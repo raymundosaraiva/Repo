@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Repô</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+<body class="row">
+
+<nav class="hide-on-large-only teal lighten-4 col" >
+    <div class="nav-wrapper" >
+      <a href="#!" class="brand-logo">Repô</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i>></a>
+    </div>
+</nav>
+  
+<div id="mobile-demo" class="side-nav fixed col l2"  >
+  <div class="center-align" style="padding: 10px 10px;">
+    <div class="row valign-wrapper" style="width: 88px; height:88px;">
+        <img src="img/repo.png" style="width: 88px; height:88px;"> 
+    </div>
+      <b>Raymundo Saraiva </b><br>
+		<i>ray@ray.com</i>
+		 
+  </div>
+	<hr>
+	<div class="row center">
+		<div class="col s12">
+			<div class="card-panel grey">
+				<span class="white-text"><h5>8</h5><hr><b>Pendentes</b>
+				</span>
+			</div>
+		</div>
+		<div class="col s12">
+			<div class="card-panel teal">
+				<span class="white-text"><h5>5</h5><hr><b>Aprovados</b>
+				</span>
+			</div>
+		</div>
+		<div class="col s12">
+			<div class="card-panel red darken-4">
+				<span class="white-text"><h5>2</h5><hr><b>Reprovados</b>
+				</span>
+			</div>
+		</div>
+	</div>
+  
+</div> 
+<div class="col l2"></div>	
+	
+<div class="main center col s12 m12 l10">
+	
+	<div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s4"><a href="#test1">Pendentes</a></li>
+        <li class="tab col s4"><a class="active" href="#test2">Aprovados</a></li>
+        <li class="tab col s4"><a href="#test4">Reprovados</a></li>
+      </ul>
+    </div>
+    <div id="test1" class="col s12"><br>Test 1</div>
+    <div id="test2" class="col s12"><br>Test 2</div>
+    <div id="test4" class="col s12"><br>Test 4</div>
+  </div>
+	 
+</div>
+
+	<div class="fixed-action-btn">
+    <a class="btn-floating btn-large red">
+      <i class="large material-icons">mode_edit</i>
+    </a>
+  </div>
+
+  <!--  Scripts-->
+  	<!--Import jQuery before materialize.js-->
+  <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+
+  </body>
+</html>

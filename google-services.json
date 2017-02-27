@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_number": "890389318244",
+    "firebase_url": "https://weblatex-8ee2f.firebaseio.com",
+    "project_id": "weblatex-8ee2f",
+    "storage_bucket": "weblatex-8ee2f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:890389318244:android:33ca77ad88a62e91",
+        "android_client_info": {
+          "package_name": "ray.univasf.weblatex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "890389318244-ek4noelu61chjnkkc06fkj3bs0uvm2t4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnqJY7kbefglA4iBa9lsTIGNsxb4BFARY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:890389318244:android:f5fad4c6d044aef1",
+        "android_client_info": {
+          "package_name": "com.github.barteksc.sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "890389318244-jc2n75ljqneo5b3a06nkmhrrn0r8gik4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.barteksc.sample",
+            "certificate_hash": "BE7991F80B65F2C474531740CA290D8161EE9392"
+          }
+        },
+        {
+          "client_id": "890389318244-ek4noelu61chjnkkc06fkj3bs0uvm2t4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnqJY7kbefglA4iBa9lsTIGNsxb4BFARY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "890389318244-ek4noelu61chjnkkc06fkj3bs0uvm2t4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

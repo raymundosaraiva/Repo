@@ -1,0 +1,193 @@
+<div class="container wrapper-valign"> 
+		<div class="card-panel grey lighten-5 z-depth-1" >
+			<div class="row valign-wrapper" style="height:50px">
+				<div class="col s3 l2">
+					<img src="img/avatar5.png" alt="" class="circle responsive-img" style="height:70px"> <!-- notice the "circle" class -->
+				</div>
+				<div class="col s9 l10">
+					<span class="black-text">
+						<h5 id="name">Fulano de Tal</h5>
+						<h6 id="email">fulano@hotmail.com</h6>
+					</span>
+				</div>
+			</div>
+		</div>
+	
+	<ul class="collapsible popout" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header active"><i class="material-icons">place</i>Projeto 01</div>
+      <div class="collapsible-body"><br>
+					<form class="container">
+						<div class="row">
+							<div class="input-field col s12">
+								<input id="titulo" type="text">
+								<label for="titulo">Título</label>
+							</div>
+							<div class="input-field col s12">
+								<input id="autor" type="text">
+								<label for="autor">Autor</label>
+							</div>
+							<div class="input-field col s9">
+								<input id="orientador" type="text">
+								<label for="orientador">Orientador</label>
+							</div>
+							<div class="input-field col s3">
+								<input id="data" type="date" class="datepicker">
+								<label for="data" class="active">Data</label>
+							</div>
+							<div class="input-field col s12">
+								<input id="pchave" type="text">
+								<label for="pchave">Palavras-chave</label>
+							</div>
+							<div class="input-field col s12">
+								<textarea id="resumo" class="materialize-textarea"></textarea>
+								<label for="resumo">Resumo</label>
+							</div>
+							<div class="file-field input-field col s12">
+								<div class="btn">
+									<span>PDF</span>
+									<input type="file" id="file">
+								</div>
+								<div class="file-path-wrapper">
+									<input class="file-path validate" type="text">
+								</div>
+							</div>
+						</div>
+						<div class="row center btn-change" style="visibility:hidden">
+							<a class="waves-effect waves-light red btn delete">Excluir</a>
+							<a class="waves-effect waves-light green btn upload">Alterar</a>
+						</div>
+						<div class="row center btn-new">
+							<a class="waves-effect waves-light green btn-large upload">Enviar</a>
+						</div>
+						<div class="row center progress" style="visibility:hidden">
+      				<div class="indeterminate"></div>
+						</div>
+					</form>
+      </div>
+    </li>
+  </ul>
+    
+</div>
+
+<script>
+$(document).ready(function() {
+	$('.datepicker').pickadate({
+    selectMonths: true, 
+    selectYears: 10
+	});
+	
+	$('.collapsible').collapsible();
+	
+	$('#email').html(localStorage["email"]);
+	$('#name').html(localStorage["name"]);
+	
+	var storageRef = firebase.storage().ref();
+	var id = localStorage["id"];
+	var fileRef;
+	var filePath;
+	var exists;	
+	
+	firebase.database().ref('/papers/'+id).once('value', function(paper){
+		exists = (paper.val() !== null);
+		if(exists){
+			$(".btn-new").css("visibility","hidden");
+			$(".btn-change").css("visibility","visible");
+			
+			$("#titulo").val(paper.val().title);
+			$("#autor").val(paper.val().author);
+			$("#resumo").val(paper.val().abstract);
+			$("#orientador").val(paper.val().advisor);
+			$("#pchave").val(paper.val().keywords);
+			$("#data").val(paper.val().date);
+			$(".file-path").val(localStorage["name"]+".pdf");
+			filePath = paper.val().pdf;
+			
+			$("label").attr("class","active");
+		}
+	});
+	
+	$("#file").on("change",function(evt){
+		fileRef = evt;	
+    evt.preventDefault();		
+	});	
+	
+	$(".upload").click(function(){
+		$(".btn-new").css("visibility","hidden");
+		$(".btn-change").css("visibility","hidden");
+		$(".progress").css("visibility","visible");
+		var title = $("#titulo").val();
+		var author = $("#autor").val();
+		var abstract = $("#resumo").val();
+		var advisor = $("#orientador").val();
+		var keywords = $("#pchave").val();
+		var date = $("#data").val();
+		
+		if(title && author && abstract && advisor && keywords && date){
+			if(fileRef){
+				var file = fileRef.target.files[0];
+				var metadata = {'contentType': file.type};
+				if(file.type == 'application/pdf'){	
+					storageRef.child(id+".pdf").put(file, metadata).then(function(snapshot) {
+						var pdf = snapshot.downloadURL;				
+						//Save data
+						firebase.database().ref('/papers/'+id).set({
+							title:title, 
+							author:author,
+							abstract:abstract,
+							advisor:advisor,
+							keywords:keywords,
+							date:date,
+							pdf:pdf
+						}).then(function() {
+								Materialize.toast('Salvo com Sucesso!', 2000);
+								$(".main").load("profile.html");
+						});	
+					}).catch(function(error) {
+						Materialize.toast('Erro ao salvar arquivo!', 2000);
+						console.error('Upload failed:', error);
+					});
+				}else{
+						Materialize.toast('Apenas PDFs são aceitos!', 2000);
+				}
+			}else{
+				if(exists){
+					//Save data
+					firebase.database().ref('/papers/'+id).set({
+						title:title, 
+						author:author,
+						abstract:abstract,
+						advisor:advisor,
+						keywords:keywords,
+						date:date,
+						pdf:filePath
+					}).then(function() {
+						Materialize.toast('Salvo com Sucesso!', 2000);
+						$(".main").load("profile.html");
+					});
+				}else{
+					Materialize.toast('Selecione um arquivo PDF!', 2000);
+				}
+
+			}
+			
+		}else{
+			Materialize.toast('Preencha os campos vazios!', 2000);
+		}
+
+	});
+	
+	$(".delete").click(function(){
+		firebase.database().ref('/papers/'+id).remove().then(function(){
+			storageRef.child(id+".pdf").delete().then(function() {
+				Materialize.toast('Projeto apagado!', 2000);
+				$(".main").load("profile.html");
+			}).catch(function(error) {
+				Materialize.toast('Falha ao apagar o arquivo!', 2000);
+			});	
+		});
+	});
+	
+	
+});
+</script>

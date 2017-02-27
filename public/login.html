@@ -1,0 +1,49 @@
+    <h1 class="header center orange-text"><img  src="img/repo.png"></h1>					
+		<div class="wrapper-valign valign center">
+			<div class="container row" style="width:350px;">
+				<div class="card-panel hoverable #fafafa grey lighten-5 " style="position:relative;top:30px;margin-bottom:100px">
+					<div class="input-field col s12">
+<!--						<i class="material-icons prefix">perm_identity</i>-->
+						<input id="user" type="text" name="user">
+						<label for="user">Usuário</label>
+					</div>
+					<div class="input-field col s12">
+<!--						<i class="material-icons prefix">vpn_key</i>-->
+						<input id="password" name="password" type="password">
+						<label for="password">Senha</label>
+					</div>
+					<button class="btn waves-effect waves-light #bf360c deep-orange darken-4 login" name="action" >Entrar</button>
+				</div>
+			</div>
+    </div>
+
+<script>
+			$(".login").click(function(e){
+			e.preventDefault();
+			var username = $('#user').val();
+			var password = $('#password').val();
+			var find = 0;
+			
+			firebase.database().ref('/users').once('value').then(function(users) {
+				users.forEach(function(user) {
+					if(user.val().email == username){
+						if(user.val().password == password){
+							localStorage["email"] = username;
+							localStorage["name"] = user.val().name;
+							localStorage["id"] = user.key;
+							$(".options").css("visibility","visible");
+							$(".logout").css("visibility","visible");
+							$(".main").load("list.html");							
+							find = 1;
+						}else{
+							Materialize.toast('A senha está incorreta!', 2000);
+							find = 1;
+						}
+					}
+				});				
+			}).then(function(){
+					if(find == 0) Materialize.toast('O usuário não existe!', 2000);
+			});
+			
+    });
+</script>
